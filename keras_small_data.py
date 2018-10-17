@@ -34,7 +34,8 @@ cat001.jpg
 cat002.jpg
 
 ...
-This code is based on the code in <script src="https://gist.github.com/fchollet/7eb39b44eb9e16e59632d25fb3119975.js"></script>```
+This code is based on the code in <script src="https://gist.github.com/fchollet/7eb39b44eb9e16e59632d25fb3119975.js"></script>
+```
 '''
 
 from keras import applications
