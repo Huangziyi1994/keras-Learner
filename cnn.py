@@ -1,3 +1,4 @@
+# the code for cnn 
 import os
 import tensorflow as tf, numpy as np
 import traceback 
