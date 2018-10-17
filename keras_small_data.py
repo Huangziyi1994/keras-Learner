@@ -39,10 +39,16 @@ This code is based on the code in <script src="https://gist.github.com/fchollet/
 '''
 
 from keras import applications
+from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
 from keras import optimizers
-from keras.models import Sequential
+import keras.models
 from keras.layers import Dropout, Flatten, Dense
+from keras import backend as K
+from keras.callback import ModelCheckpoint
+from leras.callback import TensorBoard
+import os.path
+
 
 # path to the model weights files.
 weights_path = '../keras/examples/vgg16_weights.h5'
@@ -57,8 +63,8 @@ nb_validation_samples = 800
 epochs = 50
 batch_size = 16
 
-# build the VGG16 network
-model = applications.VGG16(weights='imagenet', include_top=False)
+# build the VGG16 network as the base model
+base_model = applications.VGG16(weights='imagenet', include_top=False)
 print('Model loaded.')
 
 # build a classifier model to put on top of the convolutional model
