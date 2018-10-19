@@ -76,10 +76,10 @@ if os.path.exists(top_layer_weight_path):
     model.load_weights(top_layer_weight_path)
     print("chechpoint" + top_layer_weight_path + "loaded")
 # only train the top layers
-for layer in base_model.layer:
+for layer in base_model.layers:
     layer.trainable = False
 # compile the model
-model.compile(optimizer = optimizers.SGD(lr = 1e-4, momentum = 0.9),
+model.compile(optimizer = rmsprop,
               loss = 'categorical_crossentropy',
               metrics = ['accuracy'])
 # prepare the train data
@@ -130,9 +130,21 @@ if os.path.exists(fine_tuned_weight_path):
     model.load_weights(fine_tuned_weight_path)
     print('laod path from {-0}' .format(fine_tuned_weight_path))
 # freeze the basic layer
-
-
-
+for layer in model.layers[end-5:end]:
+    layer.trainable = True
+for lyaer in model.layers[:end-4]:
+    layer.trainable = False
+model.compile(optimizer = optimizers.SGD(lr = 1e-4, momentum = 0.9),
+              loss = 'categorical_crossentropy',
+              metrics = ['accuracy'])
+model.fit_generator(train_generator,
+                    samples_per_epoch = num_train // batch_size,
+                    epochs = fine_tune_epoch,
+                    validation_data = test_generator,
+                    nb_val_samples = num_test//batch_size,
+                    callbacks = [mc_fit,tb]
+                    )
+model.save_weights(fine_tuned_weight_path)
 
 
 
