@@ -2,4 +2,4 @@
 oct.15 learn how to use keras
 
 Learning how to use keras for my project.
-add more stuffs every day.
+add more every day.
