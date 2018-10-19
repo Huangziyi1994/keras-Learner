@@ -83,7 +83,10 @@ model.compile(optimizer = rmsprop,
               loss = 'categorical_crossentropy',
               metrics = ['accuracy'])
 # prepare the train data
-train_datagen = ImageDataGenerator(rescale = 1./255,
+train_datagen = ImageDataGenerator(featurewise_center=False, # set the mean to zero
+                                   rotation_range=20 # mostly rotate 20 degree
+                                   horizontal_flip=True
+                                   rescale = 1./255,
                                    shear_range = 0.2,
                                    zoom_range = 0.2,
                                    horizontal_flip = True)
@@ -112,7 +115,7 @@ tb = TensorBoard(log_dir='./logs', histogram_freq=1, write_graph=True, write_ima
 model.fit_generator(
                     train_generator,
                     samples_per_epoch = num_train // batch_size,
-                    nb_epoch = top_layer_epoch,
+                    epochs = top_layer_epoch,
                     test_data = test_generator,
                     nb_val_samples = num_test // batch_size,
                     callbacks = [mc_top, tb]
@@ -145,6 +148,9 @@ model.fit_generator(train_generator,
                     callbacks = [mc_fit,tb]
                     )
 model.save_weights(fine_tuned_weight_path)
+print('Saved trained model at %s ' % model_path)
+# score the trained model
+#socres = model.evaluate()
 
 
 
